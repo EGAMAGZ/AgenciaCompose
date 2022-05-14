@@ -1,10 +1,11 @@
 package com.mike.agenda
 
+import entities.Contact
 import java.util.*
 
-class listaContactos {
-    private var contactos: LinkedList<Agenda?>? = null
-    fun agregar(contacto: Agenda?) {
+class ContactStorage {
+    private var contactos: LinkedList<Contact?>? = null
+    fun agregar(contacto: Contact?) {
         contactos!!.add(contacto)
     }
 
@@ -16,12 +17,16 @@ class listaContactos {
         return contactos!![indice].toString()
     }
 
+    fun obtenerTodos(): LinkedList<Contact?>? {
+        return contactos
+    }
+
     /**
      * Metodo que carge los contactos de la lista de
      * Contactos
      */
     fun cargarContactos() {
-        val bd = DatosContactos()
+        val bd = FileStorage()
         contactos = bd.obtener()
     }
 
@@ -31,7 +36,7 @@ class listaContactos {
      * en la lista de contactos
      */
     fun guardarContactos() {
-        val bd = DatosContactos()
+        val bd = FileStorage()
         bd.borrarTodo()
         for (i in contactos!!.indices) {
             bd.registrarProducto(contactos!![i])
@@ -56,7 +61,7 @@ class listaContactos {
      * Por metodo burbuja
      */
     fun ordenarPorTelefono() {
-        var aux: Agenda?
+        var aux: Contact?
         for (i in 0 until contactos!!.size - 1) {
             for (j in 0 until contactos!!.size - 1) {
                 if (contactos!![j]!!.telefono > contactos!![j + 1]!!.telefono) {
@@ -76,7 +81,7 @@ class listaContactos {
         quickSort(contactos, 0, contactos!!.size - 1)
     }
 
-    private fun quickSort(contactos: LinkedList<Agenda?>?, izq: Int, der: Int) {
+    private fun quickSort(contactos: LinkedList<Contact?>?, izq: Int, der: Int) {
         var i = izq
         var j = der
         val pivote = contactos!![(i + j) / 2]!!.telefono

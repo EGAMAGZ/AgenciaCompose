@@ -9,7 +9,7 @@ import javax.swing.JOptionPane
  *
  * @author mike
  */
-class Archivo(private val nombre: String) {
+class FileAccess(private val nombre: String) {
     private fun obtenerArchivo(): File? {
         return try {
             val url = javaClass.classLoader.getResource("archivos/$nombre")
