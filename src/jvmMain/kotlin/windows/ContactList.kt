@@ -1,34 +1,30 @@
 package windows
 
+import ContactStorage
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import components.PersonaCard
-import entities.Contact
 
 @Composable
 fun ContactList(onEdit: (Long) -> Unit, onClickCreate: () -> Unit) {
 
-    var listaContacts = remember {
-        mutableStateListOf(
-            Contact("Gamaliel", "Garcia", "ejemplo@hotmail.com", 5951140476),
-            Contact("Gamaliel", "Garcia", "ejemplo@hotmail.com", 5951140476),
-            Contact("Gamaliel", "Garcia", "ejemplo@hotmail.com", 5951140476),
-        )
-    }
+    val contactStorage = ContactStorage()
 
     var isDialogOpen by remember { mutableStateOf(false) }
     var contactName by remember { mutableStateOf("") }
-    var contactToDelete by remember { mutableStateOf<Contact?>(null) }
+    var indexToDelete = 0
 
     Scaffold(
         topBar = {
@@ -50,17 +46,36 @@ fun ContactList(onEdit: (Long) -> Unit, onClickCreate: () -> Unit) {
         },
         floatingActionButtonPosition = FabPosition.End
     ) {
-        LazyColumn(modifier = Modifier.padding(it)) {
-            items(items = listaContacts) {
-                PersonaCard(
-                    contact = it,
-                    onClickDelete = {
-                        isDialogOpen = true
-                        contactToDelete = it
-                        contactName = "${it.nombre} ${it.apellido}"
-                    },
-                    onClickEdit = { onEdit(it.telefono) }
+        if (contactStorage.count() > 0) {
+
+            LazyColumn(modifier = Modifier.padding(it)) {
+                itemsIndexed(items = contactStorage.getAll()) { index, it ->
+                    PersonaCard(
+                        contact = it,
+                        onClickDelete = {
+                            isDialogOpen = true
+                            indexToDelete = index
+                            contactName = "${it.nombre} ${it.apellido}"
+                        },
+                        onClickEdit = { onEdit(it.telefono) }
+                    )
+                }
+            }
+        } else {
+            Box(
+                modifier = Modifier.fillMaxSize()
+                    .padding(it),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "No hay contactos registrados",
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.h6.copy(
+                        textDecoration = TextDecoration.Underline,
+                        fontWeight = FontWeight.SemiBold
+                    )
                 )
+
             }
         }
         if (isDialogOpen) {
@@ -93,7 +108,8 @@ fun ContactList(onEdit: (Long) -> Unit, onClickCreate: () -> Unit) {
                         Button(
                             onClick = {
                                 isDialogOpen = false
-                                listaContacts.remove(contactToDelete)
+                                contactStorage.delete(indexToDelete)
+                                contactStorage.save()
                             }
                         ) {
                             Text("Aceptar")

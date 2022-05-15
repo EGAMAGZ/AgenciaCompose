@@ -39,21 +39,6 @@ fun App() {
 }
 
 fun main() = application {
-
-    val contactStorage = ContactStorage()
-    contactStorage.add(
-        Contact("Gamaliel", "Garcia", "ejemplo@hotmail.com", 5951140476)
-    )
-    contactStorage.add(
-        Contact("Gamaliel", "Garcia", "ejemplo@hotmail.com", 5951140476)
-    )
-    println(contactStorage.count())
-    val contacts = contactStorage.getAll()
-    contacts?.forEach {
-        println(it)
-    }
-    contactStorage.save()
-
     Window(
         onCloseRequest = ::exitApplication, title = "Agenda de Contactos",
         state = rememberWindowState(width = 450.dp, height = 600.dp)
