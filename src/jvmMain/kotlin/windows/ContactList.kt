@@ -27,12 +27,10 @@ fun ContactList(onEdit: (Long) -> Unit, onClickCreate: () -> Unit) {
     var contactName by remember { mutableStateOf("") }
     var indexToDelete = 0
 
-    contactStorage.add(Contact("Gamaliel", "Garcia", "ejemplo@hotmail.com", 5951140476))
-
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Lista de Contactos") }
+                title = { Text("Lista de Contactos - ${contactStorage.count()} Contactos") }
             )
         },
         floatingActionButton = {
@@ -41,7 +39,7 @@ fun ContactList(onEdit: (Long) -> Unit, onClickCreate: () -> Unit) {
                 icon = {
                     Icon(
                         imageVector = Icons.Filled.Add,
-                        contentDescription = "Agregar Contaco"
+                        contentDescription = "Agregar Contacto"
                     )
                 },
                 text = { Text("Agregar") }

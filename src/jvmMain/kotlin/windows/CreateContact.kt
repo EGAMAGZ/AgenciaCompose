@@ -1,6 +1,7 @@
 package windows
 
 import ContactStorage
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -69,16 +70,22 @@ fun CreateContact(onBack: () -> Unit) {
                         labelText = "Email",
                     ) { value -> email = value }
 
-                    ErrorTextField(
-                        modifier = Modifier.fillMaxWidth(),
-                        labelText = "Telefono"
-                    ) { value -> telefono = value }
+                    Column {
+                        ErrorTextField(
+                            modifier = Modifier.fillMaxWidth(),
+                            labelText = "Telefono"
+                        ) { value -> telefono = value }
+                    }
                 }
             }
             Button(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = {
-                    if (nombre.isNotBlank() && apellido.isNotBlank() && email.isNotBlank() && telefono.isNotBlank()) {
+                    if (
+                        nombre.isNotBlank() && apellido.isNotBlank() &&
+                        email.isNotBlank() && telefono.isNotBlank() &&
+                        telefono.length == 10 && !contactStorage.exists(telefono.toLong())
+                    ) {
                         contactStorage.add(
                             Contact(nombre, apellido, email, telefono.toLong())
                         )
@@ -87,7 +94,7 @@ fun CreateContact(onBack: () -> Unit) {
                     }
                 }
             ) {
-                Text("Guardar")
+                Text("Guardar Contacto")
             }
         }
     }

@@ -1,28 +1,37 @@
 package windows
 
+import ContactStorage
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import components.ErrorTextField
 
 
 @Composable
 fun UpdateContact(numeroOriginal: Long, onBack: () -> Unit) {
-    var numero by remember { mutableStateOf<Long>(numeroOriginal) }
+    val contactStorage = ContactStorage()
+    val contactInfo = contactStorage.find(numeroOriginal)
+
+    var nombre = ""
+    var apellido = ""
+    var email = ""
+    var telefono = ""
 
     Scaffold(topBar = {
-        TopAppBar(title = { Text("Editar Contacto") }, navigationIcon = {
-            IconButton(onClick = { onBack() }) {
-                Icon(
-                    imageVector = Icons.Filled.ArrowBack, contentDescription = "Regresar"
-                )
-            }
-        })
+        TopAppBar(
+            title = { Text("Editar Contacto: ${contactInfo?.nombre} ${contactInfo?.apellido}") },
+            navigationIcon = {
+                IconButton(onClick = { onBack() }) {
+                    Icon(
+                        imageVector = Icons.Filled.ArrowBack, contentDescription = "Regresar"
+                    )
+                }
+            })
     }) {
         Column(
             modifier = Modifier.padding(it).fillMaxSize().padding(12.dp),
@@ -41,38 +50,30 @@ fun UpdateContact(numeroOriginal: Long, onBack: () -> Unit) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                     ) {
-                        OutlinedTextField(
+                        ErrorTextField(
                             modifier = Modifier.weight(1f),
-                            value = TextFieldValue(""),
-                            label = { Text("Nombre") },
-                            onValueChange = {}
-                        )
+                            labelText = "Nombre",
+                            defaultValue = contactInfo?.nombre!!
+                        ) { value -> nombre = value }
                         Spacer(modifier = Modifier.width(10.dp))
-                        OutlinedTextField(
+                        ErrorTextField(
                             modifier = Modifier.weight(1f),
-                            value = TextFieldValue(""),
-                            label = { Text("Apellido") },
-                            onValueChange = {}
-                        )
+                            labelText = "Apellido",
+                            defaultValue = contactInfo?.apellido
+                        ) { value -> apellido = value }
                     }
 
-                    OutlinedTextField(
+                    ErrorTextField(
                         modifier = Modifier.fillMaxWidth(),
-                        value = "",
-                        label = { Text("Email") },
-                        onValueChange = {
+                        labelText = "Email",
+                        defaultValue = contactInfo?.email!!
+                    ) { value -> email = value }
 
-                        }
-                    )
-
-                    OutlinedTextField(
+                    ErrorTextField(
                         modifier = Modifier.fillMaxWidth(),
-                        value = numero.toString(),
-                        label = { Text("Número telefonico") },
-                        onValueChange = {
-                            numero = it.toLong()
-                        }
-                    )
+                        labelText = "Telefono",
+                        defaultValue = contactInfo?.telefono!!.toString()
+                    ) { value -> telefono = value }
 
                 }
 
@@ -81,7 +82,7 @@ fun UpdateContact(numeroOriginal: Long, onBack: () -> Unit) {
                 modifier = Modifier.fillMaxWidth(),
                 onClick = {}
             ) {
-                Text("Guardar")
+                Text("Editar Contacto")
             }
         }
     }

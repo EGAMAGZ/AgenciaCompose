@@ -1,11 +1,14 @@
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.getValue
 import entities.Contact
 
 class ContactStorage : FileAccess {
 
-    private var contacts: ArrayList<Contact> by mutableStateOf(arrayListOf())
+    private var contacts by mutableStateOf(mutableListOf<Contact>())
+    private var sample by mutableStateOf(mutableListOf<Contact>())
 
     constructor() {
         this.contacts = this.load()
@@ -30,5 +33,15 @@ class ContactStorage : FileAccess {
         contacts
 
     fun save() =
-        contacts.let { this.dump(it) }
+        contacts.let { this.dump(it as ArrayList<Contact>) }
+
+    fun exists(telefono: Long): Boolean {
+        val index = contacts.binarySearchBy(key = telefono) { it.telefono }
+        return index >= 0
+    }
+
+    fun find(telefono: Long): Contact? {
+        val index = contacts.binarySearchBy(key = telefono) { it.telefono }
+        return contacts.getOrNull(index)
+    }
 }
