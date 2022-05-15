@@ -6,10 +6,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import components.ErrorTextField
+import entities.Contact
 
 
 @Composable
@@ -18,10 +19,13 @@ fun UpdateContact(numeroOriginal: Long, onBack: () -> Unit) {
     val contactIndex = contactStorage.findIndex(numeroOriginal)
     val contactInfo = contactStorage.get(contactIndex)
 
-    var nombre = ""
-    var apellido = ""
-    var email = ""
-    var telefono = ""
+    var isInvalid by remember { mutableStateOf(false) }
+    var errorMsg by remember { mutableStateOf("") }
+
+    var nombre = contactInfo.nombre
+    var apellido = contactInfo.apellido
+    var email = contactInfo.email
+    var telefono = contactInfo.telefono.toString()
 
     Scaffold(topBar = {
         TopAppBar(
@@ -48,6 +52,19 @@ fun UpdateContact(numeroOriginal: Long, onBack: () -> Unit) {
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     Text("Información del Contacto", style = MaterialTheme.typography.h5)
+                    if (isInvalid) {
+                        Surface(
+                            modifier = Modifier.fillMaxWidth(),
+                            color = MaterialTheme.colors.error,
+                            shape = RoundedCornerShape(8.dp)
+                        ) {
+                            Text(
+                                text = errorMsg,
+                                modifier = Modifier.padding(8.dp),
+                                style = MaterialTheme.typography.caption
+                            )
+                        }
+                    }
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                     ) {
@@ -81,7 +98,44 @@ fun UpdateContact(numeroOriginal: Long, onBack: () -> Unit) {
             }
             Button(
                 modifier = Modifier.fillMaxWidth(),
-                onClick = {}
+                onClick = {
+
+                    isInvalid = false
+                    nombre = nombre.trim()
+                    apellido = apellido.trim()
+                    email = email.trim()
+                    telefono = telefono.trim()
+
+
+                    if (telefono.isBlank() || telefono.length != 10 || !isNumeric(telefono) || contactStorage.exists(
+                            telefono.toLong()
+                        )
+                    ) {
+                        isInvalid = true
+                        errorMsg = "Telefono invalido. Debe ser unico, solo numeros y no estar vacio."
+                    }
+                    if (email.isBlank()) {
+                        isInvalid = true
+                        errorMsg = "Email invalido. No debe estar vacio."
+                    }
+                    if (apellido.isBlank()) {
+                        isInvalid = true
+                        errorMsg = "Apellido invalido. No debe estar vacio."
+                    }
+                    if (nombre.isBlank()) {
+                        isInvalid = true
+                        errorMsg = "Nombre invalido. No debe estar vacio."
+                    }
+
+                    if (!isInvalid) {
+                        contactStorage.update(
+                            contactIndex,
+                            Contact(nombre, apellido, email, telefono.toLong())
+                        )
+                        contactStorage.save()
+                        onBack()
+                    }
+                }
             ) {
                 Text("Editar Contacto")
             }

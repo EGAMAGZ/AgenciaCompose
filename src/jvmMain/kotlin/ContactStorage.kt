@@ -11,20 +11,30 @@ class ContactStorage : FileAccess {
         this.contacts = this.load()
     }
 
-    fun add(contact: Contact) =
+    fun add(contact: Contact){
         contacts.add(contact)
+        sort()
+    }
 
     fun get(index: Int) =
         contacts[index]
 
-    fun delete(index: Int) =
+    fun delete(index: Int){
         contacts.removeAt(index)
+        sort()
+    }
 
-    fun update(index: Int, contact: Contact) =
+    fun update(index: Int, contact: Contact){
         contacts.set(index, contact)
+        sort()
+    }
 
     fun count() =
         contacts.count()
+
+    fun sort(){
+        contacts.sortBy { it.telefono }
+    }
 
     fun getAll() =
         contacts

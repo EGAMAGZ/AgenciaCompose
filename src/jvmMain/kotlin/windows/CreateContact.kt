@@ -105,7 +105,10 @@ fun CreateContact(onBack: () -> Unit) {
                     telefono = telefono.trim()
 
 
-                    if (telefono.isBlank() || telefono.length != 10 || !isNumeric(telefono)) {
+                    if (telefono.isBlank() || telefono.length != 10 || !isNumeric(telefono) || contactStorage.exists(
+                            telefono.toLong()
+                        )
+                    ) {
                         isInvalid = true
                         errorMsg = "Telefono invalido. Debe ser unico, solo numeros y no estar vacio."
                     }
