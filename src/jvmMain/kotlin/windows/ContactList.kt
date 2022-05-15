@@ -16,6 +16,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import components.PersonaCard
+import entities.Contact
 
 @Composable
 fun ContactList(onEdit: (Long) -> Unit, onClickCreate: () -> Unit) {
@@ -25,6 +26,8 @@ fun ContactList(onEdit: (Long) -> Unit, onClickCreate: () -> Unit) {
     var isDialogOpen by remember { mutableStateOf(false) }
     var contactName by remember { mutableStateOf("") }
     var indexToDelete = 0
+
+    contactStorage.add(Contact("Gamaliel", "Garcia", "ejemplo@hotmail.com", 5951140476))
 
     Scaffold(
         topBar = {

@@ -1,9 +1,6 @@
 package components
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -13,19 +10,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ErrorTextField(onValidate: (String) -> Boolean) {
+fun ErrorTextField(modifier: Modifier = Modifier, labelText: String,onChange: (String) -> Unit) {
     var name by remember { mutableStateOf("") }
-    var nameError by remember { mutableStateOf(onValidate(name)) }
+    var nameError by remember { mutableStateOf(false) }
 
-    Column {
+    Column(modifier = modifier){
         TextField(
             value = name,
             onValueChange = {
                 name = it
-                nameError = false
+                nameError = it.isBlank()
+                onChange(it)
             },
-            label = { Text("Nombre") },
-            isError = nameError
+            label = { Text(labelText) },
+            isError = nameError,
+            modifier = Modifier.fillMaxWidth()
         )
 
         var assistiveElementText = if (nameError) "Error: Obligatorio" else "*Obligatorio"
@@ -41,8 +40,6 @@ fun ErrorTextField(onValidate: (String) -> Boolean) {
             style = MaterialTheme.typography.caption,
             modifier = Modifier.padding(start = 16.dp)
         )
-
-        Spacer(Modifier.size(16.dp))
     }
 
 }

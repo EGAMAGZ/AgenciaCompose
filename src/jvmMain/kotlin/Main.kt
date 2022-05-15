@@ -32,7 +32,7 @@ fun App() {
                 numeroOriginal = screen.numero,
                 onBack = { screenState = AppScreens.ContactList }
             )
-            is AppScreens.CreateContact -> CreateContact()
+            is AppScreens.CreateContact -> CreateContact(onBack = { screenState = AppScreens.ContactList })
         }
 
     }
