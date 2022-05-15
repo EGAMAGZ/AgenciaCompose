@@ -15,7 +15,8 @@ import components.ErrorTextField
 @Composable
 fun UpdateContact(numeroOriginal: Long, onBack: () -> Unit) {
     val contactStorage = ContactStorage()
-    val contactInfo = contactStorage.find(numeroOriginal)
+    val contactIndex = contactStorage.findIndex(numeroOriginal)
+    val contactInfo = contactStorage.get(contactIndex)
 
     var nombre = ""
     var apellido = ""

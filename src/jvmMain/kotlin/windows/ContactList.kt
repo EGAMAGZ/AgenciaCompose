@@ -30,7 +30,7 @@ fun ContactList(onEdit: (Long) -> Unit, onClickCreate: () -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Lista de Contactos - ${contactStorage.count()} Contactos") }
+                title = { Text("Lista de Contactos") }
             )
         },
         floatingActionButton = {
