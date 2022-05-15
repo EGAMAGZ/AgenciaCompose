@@ -1,14 +1,16 @@
 // Copyright 2000-2021 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
-import androidx.compose.material.MaterialTheme
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.runtime.*
+import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import entities.Contact
-import com.mike.agenda.ContactStorage
 import windows.ContactList
 import windows.CreateContact
 import windows.UpdateContact
@@ -16,14 +18,7 @@ import windows.UpdateContact
 @Composable
 @Preview
 fun App() {
-    val l = ContactStorage()
-    l.cargarContactos();
-    l.agregar(Contact("Miguel", "Portilla", "Mportilla@mail.com", 1112315));
-    l.ordenarPorTelefonoQuickSort();
-    l.imprimir();
-    l.guardarContactos();
     var screenState by rememberSaveable { mutableStateOf<AppScreens>(AppScreens.ContactList) }
-
     MaterialTheme {
         when (val screen = screenState) {
             is AppScreens.ContactList ->
@@ -44,6 +39,21 @@ fun App() {
 }
 
 fun main() = application {
+
+    val contactStorage = ContactStorage()
+    contactStorage.add(
+        Contact("Gamaliel", "Garcia", "ejemplo@hotmail.com", 5951140476)
+    )
+    contactStorage.add(
+        Contact("Gamaliel", "Garcia", "ejemplo@hotmail.com", 5951140476)
+    )
+    println(contactStorage.count())
+    val contacts = contactStorage.getAll()
+    contacts?.forEach {
+        println(it)
+    }
+    contactStorage.save()
+
     Window(
         onCloseRequest = ::exitApplication, title = "Agenda de Contactos",
         state = rememberWindowState(width = 450.dp, height = 600.dp)
