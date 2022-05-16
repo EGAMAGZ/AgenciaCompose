@@ -110,13 +110,18 @@ fun UpdateContact(numeroOriginal: Long, onBack: () -> Unit) {
                     telefono = telefono.trim()
 
 
-                    if (telefono.isBlank() || telefono.length != 10 || !isNumeric(telefono) || contactStorage.exists(
-                            telefono.toLong()
-                        )
+                    if (telefono.isBlank() || telefono.length != 10 || !isNumeric(telefono)
                     ) {
+
+                        isInvalid = true
+                        errorMsg = "Telefono invalido. Debe ser unico, solo numeros y no estar vacio."
+
+                    }
+                    if (contactStorage.exists(telefono.toLong()) && numeroOriginal != telefono.toLong()) {
                         isInvalid = true
                         errorMsg = "Telefono invalido. Debe ser unico, solo numeros y no estar vacio."
                     }
+
                     if (email.isBlank()) {
                         isInvalid = true
                         errorMsg = "Email invalido. No debe estar vacio."
