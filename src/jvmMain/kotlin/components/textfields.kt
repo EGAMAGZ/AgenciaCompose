@@ -1,5 +1,8 @@
 package components
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -20,6 +23,14 @@ fun ErrorTextField(
 ) {
     var name by remember { mutableStateOf(defaultValue) }
     var nameError by remember { mutableStateOf(false) }
+    val inputColor by animateColorAsState(
+        if (nameError) MaterialTheme.colors.error else MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.medium),
+        animationSpec = tween(
+            durationMillis = 600,
+            delayMillis = 100,
+            easing = LinearEasing
+        )
+    )
 
     Column(modifier = modifier) {
         TextField(
@@ -35,15 +46,10 @@ fun ErrorTextField(
         )
 
         var assistiveElementText = if (nameError) "Error: Obligatorio" else "*Obligatorio"
-        val assistiveElementColor = if (nameError) {
-            MaterialTheme.colors.error
-        } else {
-            MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.medium)
-        }
 
         Text(
             text = assistiveElementText,
-            color = assistiveElementColor,
+            color = inputColor,
             style = MaterialTheme.typography.caption,
             modifier = Modifier.padding(start = 16.dp)
         )
