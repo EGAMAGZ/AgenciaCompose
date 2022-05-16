@@ -1,6 +1,7 @@
 package windows
 
 import ContactStorage
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -52,7 +53,9 @@ fun UpdateContact(numeroOriginal: Long, onBack: () -> Unit) {
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     Text("Información del Contacto", style = MaterialTheme.typography.h5)
-                    if (isInvalid) {
+                    AnimatedVisibility(
+                        visible = isInvalid
+                    ) {
                         Surface(
                             modifier = Modifier.fillMaxWidth(),
                             color = MaterialTheme.colors.error,

@@ -1,11 +1,10 @@
 package components
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.*
 import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.spring
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,9 +22,11 @@ import androidx.compose.ui.unit.dp
 import entities.Contact
 
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun PersonaCard(modifier: Modifier = Modifier, contact: Contact, onClickDelete: () -> Unit, onClickEdit: () -> Unit) {
     var showMore by remember { mutableStateOf(false) }
+    var transition = updateTransition(showMore)
 
     Card(
         modifier = modifier
@@ -47,19 +48,62 @@ fun PersonaCard(modifier: Modifier = Modifier, contact: Contact, onClickDelete: 
             Column(
                 modifier = Modifier.weight(1f)
             ) {
-                Text(
-                    "${contact.nombre} ${contact.apellido}",
-                    style = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.Bold)
-                )
+                CompositionLocalProvider(LocalTextStyle provides MaterialTheme.typography.h6.copy(fontWeight = FontWeight.Bold)) {
+
+                    transition.AnimatedContent(
+                        transitionSpec = {
+                            if (targetState) {
+                                slideInHorizontally { width -> -width } + fadeIn() with
+                                        slideOutHorizontally { width -> width } + fadeOut()
+                            } else {
+                                slideInHorizontally { width -> width } + fadeIn() with
+                                        slideOutHorizontally { width -> -width } + fadeOut()
+                            }.using(
+                                SizeTransform(clip = false)
+                            )
+                        }
+                    ) {
+                        if (it) {
+                            Column {
+                                Text(
+                                    "Nombre: ${contact.nombre}"
+                                )
+                                Text(
+                                    "Apellido: ${contact.apellido}"
+                                )
+                            }
+                        } else {
+                            Text(
+                                "${contact.nombre} ${contact.apellido}"
+                            )
+                        }
+                    }
+                }
                 CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-                    AnimatedVisibility(
-                        showMore,
-                        enter = fadeIn(),
-                        exit = fadeOut()
+                    transition.AnimatedVisibility(
+                        visible = { targetSelected -> targetSelected }
                     ) {
                         Text("Email: ${contact.email}")
                     }
-                    Text("${contact.telefono}")
+                    transition.AnimatedContent(
+                        transitionSpec = {
+                            if (targetState) {
+                                slideInHorizontally { width -> -width } + fadeIn() with
+                                        slideOutHorizontally { width -> width } + fadeOut()
+                            } else {
+                                slideInHorizontally { width -> width } + fadeIn() with
+                                        slideOutHorizontally { width -> -width } + fadeOut()
+                            }.using(
+                                SizeTransform(clip = false)
+                            )
+                        }
+                    ) {
+                        if (it) {
+                            Text("Telefono: ${contact.telefono}")
+                        } else {
+                            Text("${contact.telefono}")
+                        }
+                    }
                 }
             }
             Row {
