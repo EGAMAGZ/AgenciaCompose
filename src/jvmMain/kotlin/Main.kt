@@ -41,7 +41,8 @@ fun App() {
 fun main() = application {
     Window(
         onCloseRequest = ::exitApplication, title = "Agenda de Contactos",
-        state = rememberWindowState(width = 450.dp, height = 600.dp)
+        state = rememberWindowState(width = 450.dp, height = 600.dp),
+        resizable = false
     ) {
         App()
     }
