@@ -10,7 +10,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
-import entities.Contact
 import windows.ContactList
 import windows.CreateContact
 import windows.UpdateContact
@@ -41,8 +40,7 @@ fun App() {
 fun main() = application {
     Window(
         onCloseRequest = ::exitApplication, title = "Agenda de Contactos",
-        state = rememberWindowState(width = 450.dp, height = 600.dp),
-        resizable = false
+        state = rememberWindowState(width = 450.dp, height = 600.dp)
     ) {
         App()
     }

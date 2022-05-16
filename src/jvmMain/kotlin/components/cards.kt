@@ -2,14 +2,10 @@ package components
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -83,7 +79,9 @@ fun PersonaCard(modifier: Modifier = Modifier, contact: Contact, onClickDelete: 
                     transition.AnimatedVisibility(
                         visible = { targetSelected -> targetSelected }
                     ) {
-                        Text("Email: ${contact.email}")
+                        Text(
+                            text = "Email: ${contact.email}"
+                        )
                     }
                     transition.AnimatedContent(
                         transitionSpec = {
@@ -101,7 +99,10 @@ fun PersonaCard(modifier: Modifier = Modifier, contact: Contact, onClickDelete: 
                         if (it) {
                             Text("Telefono: ${contact.telefono}")
                         } else {
-                            Text("${contact.telefono}")
+                            Text(
+                                text = "${contact.telefono}",
+                                modifier = Modifier.offset(x = 4.dp)
+                            )
                         }
                     }
                 }
