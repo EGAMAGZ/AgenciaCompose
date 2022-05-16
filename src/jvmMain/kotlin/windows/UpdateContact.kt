@@ -114,12 +114,12 @@ fun UpdateContact(numeroOriginal: Long, onBack: () -> Unit) {
                     ) {
 
                         isInvalid = true
-                        errorMsg = "Telefono invalido. Debe ser unico, solo numeros y no estar vacio."
+                        errorMsg = "Telefono invalido. Solo numeros y no estar vacio."
 
                     }
                     if (contactStorage.exists(telefono.toLong()) && numeroOriginal != telefono.toLong()) {
                         isInvalid = true
-                        errorMsg = "Telefono invalido. Debe ser unico, solo numeros y no estar vacio."
+                        errorMsg = "Telefono invalido. Otro contacto ya lo tiene."
                     }
 
                     if (email.isBlank()) {
