@@ -58,7 +58,7 @@ fun CreateContact(onBack: () -> Unit) {
                     Text("Informacion del Contacto", style = MaterialTheme.typography.h5)
                     AnimatedVisibility(
                         visible = isInvalid
-                    ){
+                    ) {
                         Surface(
                             modifier = Modifier.fillMaxWidth(),
                             color = MaterialTheme.colors.error,
@@ -115,9 +115,11 @@ fun CreateContact(onBack: () -> Unit) {
                         isInvalid = true
                         errorMsg = "Telefono invalido. Solo numeros y tener una longitud de 10 cifras."
                     }
-                    if(contactStorage.exists(telefono.toLong())){
-                        isInvalid = true
-                        errorMsg = "Telefono invalido. Otro contacto ya lo tiene."
+                    if (telefono.isNotBlank()) {
+                        if (contactStorage.exists(telefono.toLong())) {
+                            isInvalid = true
+                            errorMsg = "Telefono invalido. Otro contacto ya lo tiene."
+                        }
                     }
                     if (email.isBlank()) {
                         isInvalid = true
