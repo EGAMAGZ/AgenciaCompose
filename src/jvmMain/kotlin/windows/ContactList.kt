@@ -86,7 +86,7 @@ fun ContactList(onEdit: (Long) -> Unit, onClickCreate: () -> Unit) {
                 resizable = false
             ) {
                 Column(
-                    modifier = Modifier.padding(8.dp).fillMaxWidth(),
+                    modifier = Modifier.padding(8.dp).fillMaxSize(),
                     verticalArrangement = Arrangement.Center
                 ) {
                     Text(
