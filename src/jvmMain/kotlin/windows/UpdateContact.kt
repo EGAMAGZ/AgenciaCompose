@@ -112,10 +112,8 @@ fun UpdateContact(numeroOriginal: Long, onBack: () -> Unit) {
 
                     if (telefono.isBlank() || telefono.length != 10 || !isNumeric(telefono)
                     ) {
-
                         isInvalid = true
-                        errorMsg = "Telefono invalido. Solo numeros y no estar vacio."
-
+                        errorMsg = "Telefono invalido. Solo numeros y tener una longitud de 10 cifras."
                     }
                     if (contactStorage.exists(telefono.toLong()) && numeroOriginal != telefono.toLong()) {
                         isInvalid = true

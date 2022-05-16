@@ -113,7 +113,11 @@ fun CreateContact(onBack: () -> Unit) {
                         )
                     ) {
                         isInvalid = true
-                        errorMsg = "Telefono invalido. Debe ser unico, solo numeros y no estar vacio."
+                        errorMsg = "Telefono invalido. Solo numeros y tener una longitud de 10 cifras."
+                    }
+                    if(contactStorage.exists(telefono.toLong())){
+                        isInvalid = true
+                        errorMsg = "Telefono invalido. Otro contacto ya lo tiene."
                     }
                     if (email.isBlank()) {
                         isInvalid = true
