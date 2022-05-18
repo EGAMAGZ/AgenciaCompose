@@ -42,7 +42,8 @@ fun ErrorTextField(
             },
             label = { Text(labelText) },
             isError = nameError,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = true
         )
 
         var assistiveElementText = if (nameError) "Error: Obligatorio" else "*Obligatorio"

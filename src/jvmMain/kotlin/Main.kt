@@ -10,15 +10,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
-import windows.ContactList
-import windows.CreateContact
-import windows.SearchContact
-import windows.UpdateContact
+import windows.*
 
 @Composable
 @Preview
 fun App() {
-    var screenState by rememberSaveable { mutableStateOf<AppScreens>(AppScreens.ContactList) }
+    var screenState by rememberSaveable { mutableStateOf<AppScreens>(AppScreens.Login) }
     MaterialTheme {
         when (val screen = screenState) {
             is AppScreens.ContactList ->
@@ -27,7 +24,8 @@ fun App() {
                         screenState = AppScreens.UpdateContact(it)
                     },
                     onClickCreate = { screenState = AppScreens.CreateContact },
-                    onSearch = { screenState = AppScreens.SearchContact }
+                    onSearch = { screenState = AppScreens.SearchContact },
+                    onLogout = { screenState = AppScreens.Login }
                 )
             is AppScreens.UpdateContact -> UpdateContact(
                 numeroOriginal = screen.numero,
@@ -36,6 +34,8 @@ fun App() {
             is AppScreens.CreateContact -> CreateContact(onBack = { screenState = AppScreens.ContactList })
 
             is AppScreens.SearchContact -> SearchContact(onBack = { screenState = AppScreens.ContactList })
+
+            is AppScreens.Login -> Login(onAccess = { screenState = AppScreens.ContactList })
         }
 
     }

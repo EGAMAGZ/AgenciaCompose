@@ -4,4 +4,6 @@ sealed class AppScreens {
     data class UpdateContact(val numero: Long) : AppScreens()
 
     object SearchContact : AppScreens()
+
+    object Login : AppScreens()
 }

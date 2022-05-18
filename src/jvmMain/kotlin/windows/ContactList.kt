@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -20,7 +21,7 @@ import androidx.compose.ui.window.Dialog
 import components.PersonaCard
 
 @Composable
-fun ContactList(onEdit: (Long) -> Unit, onClickCreate: () -> Unit, onSearch: () -> Unit) {
+fun ContactList(onEdit: (Long) -> Unit, onClickCreate: () -> Unit, onSearch: () -> Unit, onLogout: () -> Unit) {
 
     val contactStorage = ContactStorage()
 
@@ -37,6 +38,12 @@ fun ContactList(onEdit: (Long) -> Unit, onClickCreate: () -> Unit, onSearch: () 
                         Icon(
                             imageVector = Icons.Filled.Search,
                             contentDescription = "Buscar"
+                        )
+                    }
+                    IconButton(onClick = { onLogout() }){
+                        Icon(
+                            imageVector = Icons.Filled.Close,
+                            contentDescription="Salir de sesión"
                         )
                     }
                 }
