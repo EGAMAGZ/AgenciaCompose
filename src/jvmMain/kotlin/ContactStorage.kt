@@ -6,12 +6,13 @@ import entities.Contact
 class ContactStorage : FileAccess {
 
     private var contacts by mutableStateOf(arrayListOf<Contact>())
+    private val fileName = "contactos.txt"
 
     constructor() {
-        this.contacts = this.load()
+        this.contacts = this.load(fileName)
     }
 
-    fun add(contact: Contact){
+    fun add(contact: Contact) {
         contacts.add(contact)
         sort()
     }
@@ -19,12 +20,12 @@ class ContactStorage : FileAccess {
     fun get(index: Int) =
         contacts[index]
 
-    fun delete(index: Int){
+    fun delete(index: Int) {
         contacts.removeAt(index)
         sort()
     }
 
-    fun update(index: Int, contact: Contact){
+    fun update(index: Int, contact: Contact) {
         contacts.set(index, contact)
         sort()
     }
@@ -32,7 +33,7 @@ class ContactStorage : FileAccess {
     fun count() =
         contacts.count()
 
-    fun sort(){
+    fun sort() {
         contacts.sortBy { it.telefono }
     }
 
@@ -40,7 +41,7 @@ class ContactStorage : FileAccess {
         contacts
 
     fun save() =
-        contacts.let { this.dump(it as ArrayList<Contact>) }
+        this.dump(fileName, contacts)
 
     fun exists(telefono: Long): Boolean {
         val index = contacts.binarySearchBy(key = telefono) { it.telefono }
