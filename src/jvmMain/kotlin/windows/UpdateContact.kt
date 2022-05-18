@@ -10,6 +10,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import components.ErrorMessage
 import components.ErrorTextField
 import entities.Contact
 
@@ -56,17 +57,7 @@ fun UpdateContact(numeroOriginal: Long, onBack: () -> Unit) {
                     AnimatedVisibility(
                         visible = isInvalid
                     ) {
-                        Surface(
-                            modifier = Modifier.fillMaxWidth(),
-                            color = MaterialTheme.colors.error,
-                            shape = RoundedCornerShape(8.dp)
-                        ) {
-                            Text(
-                                text = errorMsg,
-                                modifier = Modifier.padding(8.dp),
-                                style = MaterialTheme.typography.caption
-                            )
-                        }
+                        ErrorMessage(message = errorMsg)
                     }
                     Row(
                         modifier = Modifier.fillMaxWidth(),

@@ -4,9 +4,11 @@ import ContactStorage
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,10 +18,9 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import components.PersonaCard
-import entities.Contact
 
 @Composable
-fun ContactList(onEdit: (Long) -> Unit, onClickCreate: () -> Unit) {
+fun ContactList(onEdit: (Long) -> Unit, onClickCreate: () -> Unit, onSearch: () -> Unit) {
 
     val contactStorage = ContactStorage()
 
@@ -30,7 +31,15 @@ fun ContactList(onEdit: (Long) -> Unit, onClickCreate: () -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Lista de Contactos") }
+                title = { Text("Lista de Contactos") },
+                actions = {
+                    IconButton( onClick = { onSearch() }){
+                        Icon(
+                            imageVector = Icons.Filled.Search,
+                            contentDescription = "Buscar"
+                        )
+                    }
+                }
             )
         },
         floatingActionButton = {
@@ -48,8 +57,8 @@ fun ContactList(onEdit: (Long) -> Unit, onClickCreate: () -> Unit) {
         floatingActionButtonPosition = FabPosition.End
     ) {
         if (contactStorage.count() > 0) {
-
-            LazyColumn(modifier = Modifier.padding(it)) {
+            val scrollState = rememberLazyListState()
+            LazyColumn(modifier = Modifier.padding(it), state = scrollState) {
                 itemsIndexed(items = contactStorage.getAll()) { index, it ->
                     PersonaCard(
                         contact = it,

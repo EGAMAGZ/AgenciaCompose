@@ -9,9 +9,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -128,6 +130,38 @@ fun PersonaCard(modifier: Modifier = Modifier, contact: Contact, onClickDelete: 
 
             }
 
+        }
+    }
+}
+
+@Composable
+fun PersonaInfoCard(modifier: Modifier = Modifier, contact: Contact) {
+    Card(
+        modifier = modifier.fillMaxWidth(),
+        elevation = 2.dp
+    ) {
+        Column(modifier = Modifier.padding(vertical = 8.dp, horizontal = 12.dp)) {
+            Row {
+                Icon(
+                    modifier = Modifier.size(48.dp),
+                    imageVector = Icons.Filled.AccountCircle,
+                    contentDescription = "Perfil de Contacto"
+                )
+                Column(
+                    modifier = Modifier.padding(8.dp)
+                        .align(Alignment.CenterVertically)
+                ) {
+                    Text(contact.nombre)
+                    Text(contact.apellido)
+                }
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text("Telefono: ${contact.telefono}")
+                Text("Email: ${contact.email}")
+            }
         }
     }
 }

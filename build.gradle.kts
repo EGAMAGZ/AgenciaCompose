@@ -27,6 +27,7 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(compose.desktop.currentOs)
+                implementation("androidx.compose.material:material-icons-extended:1.1.1")
             }
         }
         val jvmTest by getting

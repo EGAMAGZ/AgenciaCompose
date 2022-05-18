@@ -12,6 +12,7 @@ import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import windows.ContactList
 import windows.CreateContact
+import windows.SearchContact
 import windows.UpdateContact
 
 @Composable
@@ -25,13 +26,16 @@ fun App() {
                     onEdit = {
                         screenState = AppScreens.UpdateContact(it)
                     },
-                    onClickCreate = { screenState = AppScreens.CreateContact }
+                    onClickCreate = { screenState = AppScreens.CreateContact },
+                    onSearch = { screenState = AppScreens.SearchContact }
                 )
             is AppScreens.UpdateContact -> UpdateContact(
                 numeroOriginal = screen.numero,
                 onBack = { screenState = AppScreens.ContactList }
             )
             is AppScreens.CreateContact -> CreateContact(onBack = { screenState = AppScreens.ContactList })
+
+            is AppScreens.SearchContact -> SearchContact(onBack = { screenState = AppScreens.ContactList })
         }
 
     }
