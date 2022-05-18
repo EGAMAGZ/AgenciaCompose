@@ -5,7 +5,7 @@ import entities.Contact
 
 class ContactStorage : FileAccess {
 
-    private var contacts by mutableStateOf(mutableListOf<Contact>())
+    private var contacts by mutableStateOf(arrayListOf<Contact>())
 
     constructor() {
         this.contacts = this.load()

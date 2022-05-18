@@ -106,7 +106,7 @@ fun CreateContact(onBack: () -> Unit) {
                         isInvalid = true
                         errorMsg = "Telefono invalido. Solo numeros y tener una longitud de 10 cifras."
                     }
-                    if (telefono.isNotBlank()) {
+                    if (telefono.isNotBlank() && isNumeric(telefono)) {
                         if (contactStorage.exists(telefono.toLong())) {
                             isInvalid = true
                             errorMsg = "Telefono invalido. Otro contacto ya lo tiene."
