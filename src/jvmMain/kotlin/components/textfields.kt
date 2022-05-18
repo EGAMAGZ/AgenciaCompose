@@ -12,6 +12,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -19,6 +20,7 @@ fun ErrorTextField(
     modifier: Modifier = Modifier,
     labelText: String,
     defaultValue: String = "",
+    visualTransformation: VisualTransformation = VisualTransformation.None,
     onChange: (String) -> Unit
 ) {
     var name by remember { mutableStateOf(defaultValue) }
@@ -43,7 +45,8 @@ fun ErrorTextField(
             label = { Text(labelText) },
             isError = nameError,
             modifier = Modifier.fillMaxWidth(),
-            singleLine = true
+            singleLine = true,
+            visualTransformation = visualTransformation
         )
 
         var assistiveElementText = if (nameError) "Error: Obligatorio" else "*Obligatorio"
