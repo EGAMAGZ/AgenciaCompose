@@ -2,6 +2,7 @@ package windows
 
 import UserStorage
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -26,6 +27,7 @@ fun Login(onAccess: () -> Unit) {
         Box(
             modifier = Modifier.padding(it)
                 .fillMaxSize()
+                .background(MaterialTheme.colors.primarySurface)
         ) {
             Card(
                 modifier = Modifier.padding(it)
