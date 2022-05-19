@@ -44,11 +44,26 @@ class ContactStorage : FileAccess {
         this.dump(fileName, contacts)
 
     fun exists(telefono: Long): Boolean {
-        val index = contacts.binarySearchBy(key = telefono) { it.telefono }
+        val index = binarySearch(telefono) { it.telefono }
         return index >= 0
     }
 
+    private fun binarySearch(key: Long, keyExtractor: (Contact) -> Long): Int {
+        var low = 0
+        var high = contacts.count() - 1
+        while (low <= high) {
+            val mid = (low + high) / 2
+            val midVal = keyExtractor(contacts[mid])
+            when {
+                midVal < key -> low = mid + 1
+                midVal > key -> high = mid - 1
+                else -> return mid
+            }
+        }
+        return -1
+    }
+
     fun findIndex(telefono: Long): Int {
-        return contacts.binarySearchBy(key = telefono) { it.telefono }
+        return binarySearch(telefono) { it.telefono }
     }
 }
