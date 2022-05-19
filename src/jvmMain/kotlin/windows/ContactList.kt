@@ -90,7 +90,7 @@ fun ContactList(onEdit: (Long) -> Unit, onClickCreate: () -> Unit, onSearch: () 
                 Text(
                     text = "No hay contactos registrados",
                     textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.h6.copy(
+                    style = MaterialTheme.typography.h5.copy(
                         textDecoration = TextDecoration.Underline,
                         fontWeight = FontWeight.SemiBold
                     )
