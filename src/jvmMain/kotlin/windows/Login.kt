@@ -59,13 +59,13 @@ fun Login(onAccess: () -> Unit) {
                     ErrorTextField(
                         defaultValue = "",
                         labelText = "Usuario",
-                        onChange = { username = it }
+                        onChange = { value -> username = value }
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     ErrorTextField(
                         defaultValue = "",
                         labelText = "Contraseña",
-                        onChange = { password = it },
+                        onChange = { value -> password = value },
                         visualTransformation = PasswordVisualTransformation()
                     )
                     Button(onClick = {
