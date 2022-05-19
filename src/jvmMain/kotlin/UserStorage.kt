@@ -7,7 +7,6 @@ class UserStorage : FileAccess {
 
     constructor() {
         this.user = this.load(fileName)
-        println(user)
     }
 
     fun new(user: User) {
