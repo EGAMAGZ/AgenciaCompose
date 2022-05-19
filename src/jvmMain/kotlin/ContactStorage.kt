@@ -37,7 +37,7 @@ class ContactStorage : FileAccess {
         contacts = quickSort(contacts)
     }
 
-    fun quickSort(array: ArrayList<Contact>): ArrayList<Contact> {
+    private fun quickSort(array: ArrayList<Contact>): ArrayList<Contact> {
         if (array.size <= 1) {
             return array
         }

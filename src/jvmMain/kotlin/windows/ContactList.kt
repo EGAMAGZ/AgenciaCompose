@@ -65,7 +65,10 @@ fun ContactList(onEdit: (Long) -> Unit, onClickCreate: () -> Unit, onSearch: () 
     ) {
         if (contactStorage.count() > 0) {
             val scrollState = rememberLazyListState()
-            LazyColumn(modifier = Modifier.padding(it), state = scrollState) {
+            LazyColumn(
+                modifier = Modifier.padding(it),
+                state = scrollState
+            ) {
                 itemsIndexed(items = contactStorage.getAll()) { index, it ->
                     PersonaCard(
                         contact = it,
