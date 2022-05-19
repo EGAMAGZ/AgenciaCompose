@@ -143,7 +143,7 @@ fun PersonaInfoCard(modifier: Modifier = Modifier, contact: Contact) {
         Column(modifier = Modifier.padding(vertical = 8.dp, horizontal = 12.dp)) {
             Row {
                 Icon(
-                    modifier = Modifier.size(48.dp),
+                    modifier = Modifier.size(96.dp),
                     imageVector = Icons.Filled.AccountCircle,
                     contentDescription = "Perfil de Contacto"
                 )

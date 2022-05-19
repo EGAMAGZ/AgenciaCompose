@@ -34,7 +34,18 @@ class ContactStorage : FileAccess {
         contacts.count()
 
     fun sort() {
-        contacts.sortBy { it.telefono }
+        contacts = quickSort(contacts)
+    }
+
+    fun quickSort(array: ArrayList<Contact>): ArrayList<Contact> {
+        if (array.size <= 1) {
+            return array
+        }
+        val pivot = array[array.size / 2]
+        val less = array.filter { it.telefono < pivot.telefono } as ArrayList<Contact>
+        val equal = array.filter { it.telefono == pivot.telefono } as ArrayList<Contact>
+        val greater = array.filter { it.telefono > pivot.telefono } as ArrayList<Contact>
+        return (quickSort(less) + equal + quickSort(greater)) as ArrayList<Contact>
     }
 
     fun getAll() =

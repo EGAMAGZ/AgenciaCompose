@@ -41,12 +41,18 @@ fun Login(onAccess: () -> Unit) {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        "Iniciar Sesión:",
-                        modifier = Modifier.fillMaxWidth(),
-                        style = MaterialTheme.typography.h4.copy(
+                        "Agenda",
+                        modifier = Modifier.padding(vertical = 8.dp),
+                        style = MaterialTheme.typography.h3.copy(
                             fontWeight = FontWeight.Bold
                         )
                     )
+                    Text(
+                        "Iniciar Sesión:",
+                        modifier = Modifier.fillMaxWidth(),
+                        style = MaterialTheme.typography.h5
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
                     AnimatedVisibility(
                         visible = !isValid
                     ) {
@@ -55,7 +61,6 @@ fun Login(onAccess: () -> Unit) {
                             message = "Usuario o contraseña incorrectos."
                         )
                     }
-                    Spacer(modifier = Modifier.height(16.dp))
                     ErrorTextField(
                         defaultValue = "",
                         labelText = "Usuario",
@@ -69,7 +74,6 @@ fun Login(onAccess: () -> Unit) {
                         visualTransformation = PasswordVisualTransformation()
                     )
                     Button(onClick = {
-
                         isValid = userStorage.isValid(username, password)
 
                         if (isValid) {
