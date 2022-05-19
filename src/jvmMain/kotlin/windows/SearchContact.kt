@@ -39,7 +39,7 @@ fun SearchContact(onBack: () -> Unit) {
             )
         }
     ) {
-        Column(modifier = Modifier.padding(it).padding(8.dp)) {
+        Column(modifier = Modifier.padding(it).padding(16.dp)) {
             Card(
                 elevation = 2.dp
             ) {

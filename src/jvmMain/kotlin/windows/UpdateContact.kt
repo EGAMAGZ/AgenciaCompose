@@ -41,7 +41,7 @@ fun UpdateContact(numeroOriginal: Long, onBack: () -> Unit) {
             })
     }) {
         Column(
-            modifier = Modifier.padding(it).fillMaxSize().padding(12.dp),
+            modifier = Modifier.padding(it).fillMaxSize().padding(16.dp),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Card(
