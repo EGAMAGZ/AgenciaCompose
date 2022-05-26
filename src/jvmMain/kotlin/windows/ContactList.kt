@@ -9,6 +9,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ExitToApp
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -21,7 +22,13 @@ import androidx.compose.ui.window.Dialog
 import components.PersonaCard
 
 @Composable
-fun ContactList(onEdit: (Long) -> Unit, onClickCreate: () -> Unit, onSearch: () -> Unit, onLogout: () -> Unit) {
+fun ContactList(
+    onEdit: (Long) -> Unit,
+    onClickCreate: () -> Unit,
+    onSearchTelefono: () -> Unit,
+    onSearchNombre: () -> Unit,
+    onLogout: () -> Unit
+) {
 
     val contactStorage = ContactStorage()
 
@@ -34,10 +41,16 @@ fun ContactList(onEdit: (Long) -> Unit, onClickCreate: () -> Unit, onSearch: () 
             TopAppBar(
                 title = { Text("Lista de Contactos") },
                 actions = {
-                    IconButton(onClick = { onSearch() }) {
+                    IconButton(onClick = { onSearchTelefono() }) {
                         Icon(
                             imageVector = Icons.Filled.Search,
                             contentDescription = "Buscar"
+                        )
+                    }
+                    IconButton(onClick = { onSearchNombre() }) {
+                        Icon(
+                            imageVector = Icons.Filled.Person,
+                            contentDescription = null
                         )
                     }
                     IconButton(onClick = { onLogout() }) {

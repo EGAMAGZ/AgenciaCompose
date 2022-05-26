@@ -6,7 +6,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.application
@@ -25,18 +24,21 @@ fun App() {
                         screenState = AppScreens.UpdateContact(it)
                     },
                     onClickCreate = { screenState = AppScreens.CreateContact },
-                    onSearch = { screenState = AppScreens.SearchContact },
+                    onSearchTelefono = { screenState = AppScreens.SearchContactByTelefono },
+                    onSearchNombre = { screenState = AppScreens.SearchContactByNombre },
                     onLogout = { screenState = AppScreens.Login }
                 )
             is AppScreens.UpdateContact -> UpdateContact(
                 numeroOriginal = screen.numero,
                 onBack = { screenState = AppScreens.ContactList }
             )
-            is AppScreens.CreateContact -> CreateContact(onBack = { screenState = AppScreens.ContactList })
+            is AppScreens.CreateContact -> CreateContact { screenState = AppScreens.ContactList }
 
-            is AppScreens.SearchContact -> SearchContact(onBack = { screenState = AppScreens.ContactList })
+            is AppScreens.SearchContactByTelefono -> SearchContactByTelefono { screenState = AppScreens.ContactList }
 
-            is AppScreens.Login -> Login(onAccess = { screenState = AppScreens.ContactList })
+            is AppScreens.SearchContactByNombre -> SearchContactByNombre { screenState = AppScreens.ContactList }
+
+            is AppScreens.Login -> Login { screenState = AppScreens.ContactList }
         }
 
     }

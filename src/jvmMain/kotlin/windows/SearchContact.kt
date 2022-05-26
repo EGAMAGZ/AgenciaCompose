@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,7 +17,7 @@ import components.ErrorTextField
 import components.PersonaInfoCard
 
 @Composable
-fun SearchContact(onBack: () -> Unit) {
+fun SearchContactByTelefono(onBack: () -> Unit) {
     val contactStorage = ContactStorage()
     var isInvalid by remember { mutableStateOf(false) }
     var errorMsg by remember { mutableStateOf("") }
@@ -27,7 +28,7 @@ fun SearchContact(onBack: () -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Buscar contacto ") },
+                title = { Text("Buscar contacto por telefono ") },
                 navigationIcon = {
                     IconButton(onClick = { onBack() }) {
                         Icon(
@@ -106,5 +107,26 @@ fun SearchContact(onBack: () -> Unit) {
             }
 
         }
+    }
+}
+
+@Composable
+fun SearchContactByNombre(onBack: () -> Unit) {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Buscar contactos por nombre") },
+                navigationIcon = {
+                    IconButton(onClick = { onBack() }){
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = null
+                        )
+                    }
+                }
+            )
+        }
+    ){
+
     }
 }
