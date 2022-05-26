@@ -77,4 +77,17 @@ class ContactStorage : FileAccess {
     fun findIndex(telefono: Long): Int {
         return binarySearch(telefono) { it.telefono }
     }
+
+    fun findContactsByName(name: String): ArrayList<Contact> {
+        val tempContact = arrayListOf<Contact>()
+        contacts.forEach {
+            if (
+                it.nombre.contains(name, ignoreCase = true) ||
+                it.apellido.contains(name, ignoreCase = true)
+            ) {
+                tempContact.add(it)
+            }
+        }
+        return tempContact
+    }
 }

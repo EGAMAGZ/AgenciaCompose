@@ -2,19 +2,22 @@ package windows
 
 import ContactStorage
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import components.ErrorMessage
-import components.ErrorTextField
-import components.PersonaInfoCard
+import components.*
+import entities.Contact
 
 @Composable
 fun SearchContactByTelefono(onBack: () -> Unit) {
@@ -91,19 +94,10 @@ fun SearchContactByTelefono(onBack: () -> Unit) {
                     contact
                 )
             } else {
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 12.dp),
-                    elevation = 2.dp
-                ) {
-                    Row(
-                        modifier = Modifier.padding(8.dp),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        Text("No se ha encontrado ningun contacto.", textAlign = TextAlign.Center)
-                    }
-                }
+                NotFoundCard(
+                    modifier = Modifier.padding(top = 16.dp),
+                    "No se ha encontrado ningun contacto."
+                )
             }
 
         }
@@ -112,12 +106,19 @@ fun SearchContactByTelefono(onBack: () -> Unit) {
 
 @Composable
 fun SearchContactByNombre(onBack: () -> Unit) {
+    val contactStorage = ContactStorage()
+    var isInvalid by remember { mutableStateOf(false) }
+    var errorMsg by remember { mutableStateOf("") }
+    var contactList by remember { mutableStateOf(arrayListOf<Contact>()) }
+
+    var nombre = ""
+
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text("Buscar contactos por nombre") },
                 navigationIcon = {
-                    IconButton(onClick = { onBack() }){
+                    IconButton(onClick = { onBack() }) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
                             contentDescription = null
@@ -126,7 +127,70 @@ fun SearchContactByNombre(onBack: () -> Unit) {
                 }
             )
         }
-    ){
+    ) {
+        Column(modifier = Modifier.padding(it).padding(16.dp)) {
+            Card(elevation = 2.dp) {
+                Column(
+                    modifier = Modifier.padding(vertical = 8.dp, horizontal = 12.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        "Busqueda por Nombre",
+                        modifier = Modifier.fillMaxWidth(),
+                        style = MaterialTheme.typography.h5
+                    )
+                    AnimatedVisibility(
+                        visible = isInvalid
+                    ) {
+                        ErrorMessage(message = errorMsg)
+                    }
+                    ErrorTextField(
+                        labelText = "Nombre",
+                        defaultValue = "",
+                        onChange = { value -> nombre = value }
+                    )
+                    Button(
+                        onClick = {
+                            isInvalid = false
 
+                            if (nombre.isBlank()) {
+                                isInvalid = true
+                                errorMsg = "Nombre invalido. No debe estar vacio."
+                            }
+
+                            if (!isInvalid) {
+                                contactList = contactStorage.findContactsByName(nombre)
+                            }
+                        }
+                    ) {
+                        Text("Buscar")
+                    }
+                }
+            }
+
+            if (contactList.size > 0) {
+                val scrollState = rememberLazyListState()
+                Column(
+                    modifier = Modifier.padding(vertical = 12.dp)
+                ) {
+                    Text("Contactos encontrados:", style = MaterialTheme.typography.h5)
+                    LazyColumn(
+                        state = scrollState,
+                    ) {
+                        items(contactList) { contact ->
+                            PersonaInfoCardClickable(
+                                contact = contact
+                            )
+                        }
+                    }
+                }
+            } else {
+                NotFoundCard(
+                    modifier = Modifier.padding(top = 16.dp),
+                    "No se han encontrado contactos."
+                )
+            }
+        }
     }
 }

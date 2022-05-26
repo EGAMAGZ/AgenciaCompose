@@ -142,7 +142,7 @@ fun PersonaInfoCard(modifier: Modifier = Modifier, contact: Contact) {
     ) {
         Column(modifier = Modifier.padding(vertical = 12.dp, horizontal = 12.dp)) {
             Text(
-                "Informacion del contecto:", style = MaterialTheme.typography.h6.copy(
+                "Informacion del contacto:", style = MaterialTheme.typography.h6.copy(
                     fontWeight = FontWeight.Bold
                 )
             )
@@ -166,6 +166,123 @@ fun PersonaInfoCard(modifier: Modifier = Modifier, contact: Contact) {
                     Text("Email: ${contact.email}")
                 }
             }
+        }
+    }
+}
+
+@OptIn(ExperimentalAnimationApi::class)
+@Composable
+fun PersonaInfoCardClickable(modifier: Modifier = Modifier, contact: Contact) {
+    var showMore by remember { mutableStateOf(false) }
+    var transition = updateTransition(showMore)
+
+    Card(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp)
+            .clickable { showMore = !showMore },
+        elevation = 2.dp,
+        shape = RoundedCornerShape(8.dp)
+    ) {
+        Row(
+            modifier = Modifier.padding(vertical = 18.dp, horizontal = 10.dp)
+                .animateContentSize(
+                    animationSpec = spring(
+                        dampingRatio = Spring.DampingRatioLowBouncy,
+                        stiffness = Spring.StiffnessHigh
+                    )
+                )
+        ) {
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                CompositionLocalProvider(LocalTextStyle provides MaterialTheme.typography.h6.copy(fontWeight = FontWeight.Bold)) {
+
+                    transition.AnimatedContent(
+                        transitionSpec = {
+                            if (targetState) {
+                                slideInHorizontally { width -> -width } + fadeIn() with
+                                        slideOutHorizontally { width -> width } + fadeOut()
+                            } else {
+                                slideInHorizontally { width -> width } + fadeIn() with
+                                        slideOutHorizontally { width -> -width } + fadeOut()
+                            }.using(
+                                SizeTransform(clip = false)
+                            )
+                        }
+                    ) {
+                        if (it) {
+                            Column {
+                                Text(
+                                    "Nombre: ${contact.nombre}"
+                                )
+                                Text(
+                                    "Apellido: ${contact.apellido}"
+                                )
+                            }
+                        } else {
+                            Text(
+                                "${contact.nombre} ${contact.apellido}"
+                            )
+                        }
+                    }
+                }
+                CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                    transition.AnimatedVisibility(
+                        visible = { targetSelected -> targetSelected }
+                    ) {
+                        Text(
+                            text = "Email: ${contact.email}"
+                        )
+                    }
+                    transition.AnimatedContent(
+                        transitionSpec = {
+                            if (targetState) {
+                                slideInHorizontally { width -> -width } + fadeIn() with
+                                        slideOutHorizontally { width -> width } + fadeOut()
+                            } else {
+                                slideInHorizontally { width -> width } + fadeIn() with
+                                        slideOutHorizontally { width -> -width } + fadeOut()
+                            }.using(
+                                SizeTransform(clip = false)
+                            )
+                        }
+                    ) {
+                        if (it) {
+                            Text("Telefono: ${contact.telefono}")
+                        } else {
+                            Text(
+                                text = "${contact.telefono}",
+                                modifier = Modifier.offset(x = 4.dp)
+                            )
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+}
+
+@Composable
+fun NotFoundCard(modifier: Modifier = Modifier, message: String) {
+    Card(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(150.dp),
+        elevation = 2.dp
+    ) {
+        Row(
+            modifier = Modifier.fillMaxSize(),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                message,
+                style = MaterialTheme.typography.h6.copy(
+                    fontWeight = FontWeight.SemiBold
+                )
+            )
         }
     }
 }
