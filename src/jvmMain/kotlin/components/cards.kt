@@ -140,7 +140,13 @@ fun PersonaInfoCard(modifier: Modifier = Modifier, contact: Contact) {
         modifier = modifier.fillMaxWidth(),
         elevation = 2.dp
     ) {
-        Column(modifier = Modifier.padding(vertical = 8.dp, horizontal = 12.dp)) {
+        Column(modifier = Modifier.padding(vertical = 12.dp, horizontal = 12.dp)) {
+            Text(
+                "Informacion del contecto:", style = MaterialTheme.typography.h6.copy(
+                    fontWeight = FontWeight.Bold
+                )
+            )
+            Spacer(modifier = Modifier.height(8.dp))
             Row {
                 Icon(
                     modifier = Modifier.size(96.dp),
@@ -149,18 +155,16 @@ fun PersonaInfoCard(modifier: Modifier = Modifier, contact: Contact) {
                 )
                 Column(
                     modifier = Modifier.padding(8.dp)
-                        .align(Alignment.CenterVertically)
+                        .align(Alignment.CenterVertically),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    Text(contact.nombre)
-                    Text(contact.apellido)
+                    Text(
+                        "${contact.nombre} ${contact.apellido}",
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text("Telefono: ${contact.telefono}")
+                    Text("Email: ${contact.email}")
                 }
-            }
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text("Telefono: ${contact.telefono}")
-                Text("Email: ${contact.email}")
             }
         }
     }
