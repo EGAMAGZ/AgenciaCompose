@@ -38,9 +38,16 @@ compose.desktop {
     application {
         mainClass = "MainKt"
         nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb, TargetFormat.Exe)
             packageName = "AgenciaCompose"
             packageVersion = "1.0.0"
+            copyright = "Copyright © 2020 Agencia Compose"
+            vendor = "Agencia Compose"
+
+            windows {
+                menu = true
+                upgradeUuid = "AF792DA6-2EA3-495A-95E5-C3C6CBCB9948"
+            }
         }
     }
 }
