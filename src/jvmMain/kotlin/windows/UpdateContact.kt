@@ -28,6 +28,7 @@ fun UpdateContact(numeroOriginal: Long, onBack: () -> Unit) {
     var apellido = contactInfo.apellido
     var email = contactInfo.email
     var telefono = contactInfo.telefono.toString()
+    val regex = Regex("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")
 
     Scaffold(topBar = {
         TopAppBar(
@@ -113,9 +114,9 @@ fun UpdateContact(numeroOriginal: Long, onBack: () -> Unit) {
                         }
                     }
 
-                    if (email.isBlank()) {
+                    if (!(regex matches email)) {
                         isInvalid = true
-                        errorMsg = "Email invalido. No debe estar vacio."
+                        errorMsg = "Email invalido."
                     }
                     if (apellido.isBlank()) {
                         isInvalid = true

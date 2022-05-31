@@ -27,6 +27,7 @@ fun CreateContact(onBack: () -> Unit) {
     var apellido = ""
     var email = ""
     var telefono = ""
+    val regex = Regex("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")
 
     Scaffold(
         topBar = {
@@ -112,9 +113,9 @@ fun CreateContact(onBack: () -> Unit) {
                             errorMsg = "Telefono invalido. Otro contacto ya lo tiene."
                         }
                     }
-                    if (email.isBlank()) {
+                    if (!(regex matches email)) {
                         isInvalid = true
-                        errorMsg = "Email invalido. No debe estar vacio."
+                        errorMsg = "Email invalido."
                     }
                     if (apellido.isBlank()) {
                         isInvalid = true

@@ -14,7 +14,7 @@ open class FileAccess {
         file.close()
     }
 
-    fun fillDefaultData(fileName: String) {
+    private fun fillDefaultData(fileName: String) {
         val file = File(fileName)
         if (!file.exists()) {
             file.createNewFile()
