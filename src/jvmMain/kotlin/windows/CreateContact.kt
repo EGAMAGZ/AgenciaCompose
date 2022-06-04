@@ -27,7 +27,7 @@ fun CreateContact(onBack: () -> Unit) {
     var apellido = ""
     var email = ""
     var telefono = ""
-    val regex = Regex("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")
+    val regex = Regex("^[A-Za-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")
 
     Scaffold(
         topBar = {

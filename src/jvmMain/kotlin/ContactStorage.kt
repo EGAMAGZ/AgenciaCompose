@@ -10,6 +10,8 @@ class ContactStorage : FileAccess {
 
     constructor() {
         this.contacts = this.load(fileName)
+        sort()
+        save()
     }
 
     fun add(contact: Contact) {
